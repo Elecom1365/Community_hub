@@ -1,0 +1,50 @@
+{% load static %}
+<!doctype html>
+<html lang="en-GB">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Community Hub{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'core/style.css' %}">
+</head>
+
+<body>
+    <header class="topbar">
+        <a class="brand" href="{% url 'home' %}">
+            <span class="brand-mark">
+                <i class="fa-solid fa-hand-holding-heart"></i>
+            </span>
+            <span>Community Hub</span>
+        </a>
+        {% if user.is_authenticated %}
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="{% url 'dashboard' %}">Dashboard</a>
+            <a href="{% url 'shifts' %}">Volunteer shifts</a>
+            <a href="{% url 'tasks' %}">Tasks</a>
+            <a href="{% url 'needs' %}">Resource needs</a>
+            {% if request.membership.role == 'admin' %}
+            <a href="{% url 'donations' %}">Donations</a>
+            <a href="{% url 'campaigns' %}">Fundraising</a>
+            <a href="{% url 'reports' %}">Reports</a>
+            <a href="{% url 'members' %}">Members</a>
+            {% endif %}
+            <a href="{% url 'profile' %}">My profile</a>
+            <form method="post" action="{% url 'logout' %}" class="logout-form">{% csrf_token %}<button
+                    class="nav-logout" type="submit">Log out</button></form>
+        </nav>
+        {% else %}
+        <nav class="nav-links"><a href="{% url 'login' %}">Log in</a><a class="nav-cta" href="{% url 'signup' %}">Join
+                as volunteer</a></nav>
+        {% endif %}
+    </header>
+    <main class="page-wrap">
+        {% if messages %}<div class="messages" aria-live="polite">{% for message in messages %}<div
+                class="message {{ message.tags }}">{{ message }}</div>{% endfor %}</div>{% endif %}
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="footer"><span>Copyrights Preserved</span><span>&copy; 2026, Community Hub</span></footer>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+{% extends 'core/base.html' %}
+{% block title %}Fundraising | Community Hub{% endblock %}
+{% block content %}
+<div class="content-heading">
+    <div>
+        <span class="eyebrow">GROW COMMUNITY IMPACT</span>
+        <h1>Fundraising campaigns</h1>
+        <p class="muted">Create a target and follow donations recorded against it.</p>
+    </div>
+</div>
+
+<div class="two-column-layout">
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h2>New campaign</h2>
+                <p>Set a goal and campaign dates.</p>
+            </div>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="field">
+                <label for="{{ field.id_for_label }}">
+                    {{ field.label }}
+                    {% if field.field.required %}
+                    <span class="required">*</span>
+                    {% endif %}
+                </label>
+                {{ field }}
+                {% if field.errors %}
+                <div class="field-error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button class="button primary full" type="submit">Create campaign</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <h2>Your campaigns</h2>
+                <p>Progress is calculated from recorded donation amounts.</p>
+            </div>
+        </div>
+
+        {% for campaign in campaigns %}
+        <div class="campaign-card">
+            <div class="campaign-top">
+                <span class="status-tag {{ campaign.status }}">
+                    {{ campaign.get_status_display }}
+                </span>
+                <span class="muted">{{ campaign.start_date|date:'d M Y' }}</span>
+            </div>
+
+            <h3>{{ campaign.title }}</h3>
+            <p>{{ campaign.description|default:'No description provided.' }}</p>
+
+            <div class="campaign-numbers">
+                <div>
+                    <strong>£{{ campaign.raised|default:0|floatformat:2 }}</strong>
+                    <small>Raised</small>
+                </div>
+                <div>
+                    <strong>£{{ campaign.target_amount|floatformat:2 }}</strong>
+                    <small>Target</small>
+                </div>
+            </div>
+
+            <div class="progress-track">
+                <span
+                    style="width:{% if campaign.target_amount %}{% widthratio campaign.raised|default:0 campaign.target_amount 100 %}{% else %}0{% endif %}%"></span>
+            </div>
+
+            <form method="post" action="{% url 'update_campaign_status' campaign.id %}" class="campaign-status-form">
+                {% csrf_token %}
+                <label for="status-{{ campaign.id }}">Change status</label>
+                <div class="campaign-status-controls">
+                    <select name="status" id="status-{{ campaign.id }}">
+                        {% for value, label in campaign.Status.choices %}
+                        <option value="{{ value }}" {% if campaign.status == value %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <button class="button primary" type="submit">Save status</button>
+                </div>
+            </form>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <strong>No campaigns yet</strong>
+            <p>Create a campaign to start tracking fundraising.</p>
+        </div>
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

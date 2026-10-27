@@ -1,0 +1,5 @@
+{% extends 'core/base.html' %}
+{% block title %}Log in | Community Hub{% endblock %}
+{% block content %}
+<div class="auth-layout"><div class="auth-aside"><span class="eyebrow">WELCOME BACK</span><h1>Good work happens when people work together.</h1><p>Sign in to manage your activities and stay connected with your community.</p></div><div class="form-card"><h2>Sign in</h2><p class="muted">Use your Community Hub account.</p><form method="post">{% csrf_token %}{% if form.non_field_errors %}<div class="form-errors">{{ form.non_field_errors }}</div>{% endif %}{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}</div>{% endfor %}<button class="button primary full" type="submit">Log in</button></form><p class="form-foot">New here? <a href="{% url 'signup' %}">Create a volunteer account</a></p></div></div>
+{% endblock %}

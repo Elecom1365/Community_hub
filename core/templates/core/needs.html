@@ -1,0 +1,6 @@
+{% extends 'core/base.html' %}
+{% block title %}Urgent resource needs | Community Hub{% endblock %}
+{% block content %}
+<div class="content-heading"><div><span class="eyebrow">COMMUNITY NEEDS</span><h1>Urgent resource needs</h1><p class="muted">Make current requests visible so the team can coordinate support.</p></div></div>
+{% if is_admin %}<div class="two-column-layout"><section class="panel"><div class="panel-heading"><div><h2>Publish a request</h2><p>Describe what is needed and by when.</p></div></div><form method="post">{% csrf_token %}{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}</div>{% endfor %}<button class="button primary full" type="submit">Publish request</button></form></section><section class="panel"><div class="panel-heading"><div><h2>Current requests</h2><p>Visible to organisation members.</p></div></div>{% include 'core/need_list.html' %}</section></div>{% else %}<section class="panel"><div class="panel-heading"><div><h2>Current requests</h2><p>Speak with an administrator if you can help fulfil a request.</p></div></div>{% include 'core/need_list.html' %}</section>{% endif %}
+{% endblock %}

@@ -1,0 +1,6 @@
+{% extends 'core/base.html' %}
+{% block title %}Volunteer shifts | Community Hub{% endblock %}
+{% block content %}
+<div class="content-heading"><div><span class="eyebrow">SHOW UP FOR YOUR COMMUNITY</span><h1>Volunteer shifts</h1><p class="muted">Browse opportunities and manage your bookings.</p></div></div>
+{% if is_admin %}<div class="two-column-layout"><section class="panel"><div class="panel-heading"><div><h2>Create a shift</h2><p>Set the time, capacity and status.</p></div></div><form method="post">{% csrf_token %}{% for field in form %}<div class="field"><label for="{{ field.id_for_label }}">{{ field.label }}</label>{{ field }}{% if field.errors %}<div class="field-error">{{ field.errors }}</div>{% endif %}</div>{% endfor %}<button class="button primary full" type="submit">Create shift</button></form></section><section class="panel"><div class="panel-heading"><div><h2>Scheduled shifts</h2><p>Capacity and current bookings.</p></div></div>{% include 'core/shift_list.html' %}</section></div>{% else %}<section class="panel"><div class="panel-heading"><div><h2>Available opportunities</h2><p>Book a shift while places remain.</p></div></div>{% include 'core/shift_list.html' %}</section>{% endif %}
+{% endblock %}

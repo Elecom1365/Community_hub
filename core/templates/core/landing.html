@@ -1,0 +1,9 @@
+{% extends 'core/base.html' %}
+{% block title %}Community Hub | Coordinate good work{% endblock %}
+{% block content %}
+<section class="hero">
+<div class="hero-copy"><span class="eyebrow">TOOLS FOR COMMUNITY ORGANISATIONS</span><h1>More time for the work that matters.</h1><p>Bring donations, volunteers, shifts, tasks and urgent resource needs together in one practical workspace.</p><div class="hero-actions"><a class="button primary" href="{% url 'signup' %}">Join as a volunteer</a><a class="button secondary" href="{% url 'login' %}">Sign in</a></div><div class="hero-note"><span class="dot"></span>Designed for small non-profit teams</div></div>
+<div class="hero-art"><div class="art-circle"></div><div class="art-card card-one"><span class="art-icon green">♥</span><div><strong>Community donations</strong><small>Every contribution counts</small></div><span class="check">✓</span></div><div class="art-card card-two"><span class="art-icon orange">✦</span><div><strong>Volunteer shifts</strong><small>People power in action</small></div><span class="check">✓</span></div><div class="art-card card-three"><span class="art-icon blue">↗</span><div><strong>Shared priorities</strong><small>One team, clear next steps</small></div><span class="check">✓</span></div><div class="art-caption">Small actions. Real impact.</div></div>
+</section>
+<section class="feature-strip"><div><strong>01</strong><h3>Coordinate people</h3><p>Manage volunteer profiles, shifts and bookings.</p></div><div><strong>02</strong><h3>Track contributions</h3><p>Record donations and create receipts.</p></div><div><strong>03</strong><h3>See what matters</h3><p>Keep tasks and urgent needs visible.</p></div></section>
+{% endblock %}
